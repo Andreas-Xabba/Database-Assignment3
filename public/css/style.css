@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Exo+2:wght@300&display=swap');
+
+:root {
+    --clr-background:  rgb(193, 194, 196);
+    --clr-primary:  rgb(24, 68, 126);
+    --clr-accent: rgb(3, 34, 82);
+    --clr-text: rgb(221, 233, 255);
+    --clr-text-hover: rgb(79, 114, 209);
+  }
+
+body {
+    position: absolute;
+    top: -10px;
+    bottom: -8px;
+    left: 100px;
+    right: 100px;
+    background-color: var(--clr-background);
+}
+
+main {
+    position: relative;
+    min-height: 400px;
+    max-height: 700px;
+    left: auto;
+    right: auto;
+    top: 0;
+    bottom: auto;
+    height: fit-content;
+    border: 1px solid black;
+    color: var(--clr-text);
+    z-index: 1;
+    opacity: 1;
+}
+
+main h2 {
+    text-align: center;
+}
+
+main::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    background-color: var(--clr-primary);
+    opacity: 0.4;
+    z-index: -1;
+}
+
+header {
+    position: relative;
+    border: 1px solid black;
+    bottom: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--clr-accent);
+    color:  var(--clr-text);
+    height: 100px;
+}
+
+.background-image-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -110px;
+    right: -108px;
+    background-image: url('../image/BackgroundImage4.png');
+    background-repeat: repeat;
+    opacity: 0.4;
+}
+
+.header-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+}
+
+footer {
+    position: relative;
+    top: 5px;
+    border: 1px solid black;
+    padding-left: 10px;
+    background-color: var(--clr-accent);
+    color: var(--clr-text);
+}
+
+nav {
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: auto;
+    border: 1px solid black;
+    background-color: var(--clr-primary);
+}
+
+nav ul {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin: auto;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: -20px;
+}
+
+
+nav li {
+    position: relative;
+    margin-right: 20px;
+    display: inline-block;
+    list-style: none;
+}
+
+nav a {
+    color: var(--clr-text);
+    outline: none;
+    text-decoration: none;
+}
+
+nav a:hover, nav a:focus {
+    color: var(--clr-text-hover);
+}
+
+.nav-item-focused {
+    text-decoration: underline;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    color: var(--clr-text);
+    font-family: 'Times New Roman', 'Times', 'serif';
+    font-size: 1em;
+}
+
+.logout-button:hover, .logout-button:focus {
+    color: var(--clr-text-hover);
+}
+
+.header-logo {
+    float: left;
+    position: relative;
+    height: 100px;
+    width: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+.header-text-wrapper {
+    float: left;
+    position: relative;
+    top: 20px;
+    left: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.header-main-text {
+    font-family: 'Exo 2', sans-serif;
+    color: var(--clr-text);
+    margin: 0;
+    padding: 0;
+}
+
+.header-sub-text {
+    font-family: 'Cinzel', serif;
+    color: var(--clr-text);
+    margin: 0;
+    padding: 0;
+}
+
+.user-information {
+    position: absolute;
+    right: 10px;
+    left: auto;
+    bottom: 5px;
+    top: auto;
+}
+
+.user-name {
+    color: var(--clr-text);
+    font-family: 'Exo 2', sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        overflow-x: hidden;
+    }
+
+    header {
+        height: 65px;
+    }
+
+    .header-logo {
+        height: 50px;
+        width: 50px;
+        margin-top: 10px;
+    }
+
+    nav li {
+        display: inline;
+        margin-right: 15px;
+    }
+
+    .header-text-wrapper {
+        top: 10px;
+        
+    }
+
+    .header-main-text {
+        font-size: 1.2em;
+    }
+    
+    .header-sub-text {
+        font-size: 1.2em;
+    }
+
+}
