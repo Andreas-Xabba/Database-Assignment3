@@ -5,8 +5,9 @@ const routerExports = {}
 module.exports = routerExports
 
 routerExports.router = router
-router.get('/', controller.renderIndex)
+router.get('/', controller.renderStock)
 
-router.get('/orders', controller.renderOrders)
+router.get('/addpart', controller.renderAddPart)
+router.post('/addpart', controller.tryAddPart)
 
-router.get('/stock', controller.renderStock)
+router.get('/view', controller.renderViewStock)

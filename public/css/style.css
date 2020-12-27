@@ -97,6 +97,7 @@ nav {
     top: 0;
     bottom: auto;
     border: 1px solid black;
+    border-bottom: none;
     background-color: var(--clr-primary);
 }
 
@@ -192,6 +193,11 @@ nav a:hover, nav a:focus {
 .user-name {
     color: var(--clr-text);
     font-family: 'Exo 2', sans-serif;
+}
+
+.innerWindow {
+    margin: 10px;
+    padding: 10px;
 }
 
 @media screen and (max-width: 600px) {

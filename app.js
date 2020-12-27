@@ -37,6 +37,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 const indexRouter = require('./routes/index')
+const orderRouter = require('./routes/orders')
+const stockRouter = require('./routes/stock')
 
 app.use(session({
   resave: false,
@@ -45,6 +47,8 @@ app.use(session({
 }))
 
 app.use('/', indexRouter.router)
+app.use('/orders', orderRouter.router)
+app.use('/stock', stockRouter.router)
 
 app.use(function (req, res, next) {
   next(createError(404))

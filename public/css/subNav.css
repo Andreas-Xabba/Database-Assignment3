@@ -1,0 +1,14 @@
+.subNavItem {
+    display: inline-block;
+}
+
+.subNavItem + .subNavItem {
+    margin-left: 10px;
+}
+
+.subNavBar {
+    border: none;
+    border-bottom: 1px solid black;
+    margin: 0;
+    background-color: var(--clr-primary);
+}
