@@ -1,5 +1,5 @@
 {{> stockNav}}
-<link rel="stylesheet" type="text/css" href="/css/addPart.css" />
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
 <script src="/js/addPart.js"></script>
 <div class="innerWindow">
     <h1>Add Part</h1>
@@ -11,8 +11,8 @@
             <label>Part Number</label>
             <input type="text" name="partNumber" value="" required>
 
-            <label>Quantity</label>
-            <input type="number" name="partQuantity" value="" required>
+            <label>Price</label>
+            <input type="number" name="partPrice" value="" step=0.01 min=0 required>
 
             <input type="submit" name="submit" value="Add Part">
         </form>

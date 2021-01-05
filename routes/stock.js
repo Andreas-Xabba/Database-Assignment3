@@ -11,3 +11,4 @@ router.get('/addpart', controller.renderAddPart)
 router.post('/addpart', controller.tryAddPart)
 
 router.get('/view', controller.renderViewStock)
+router.get('/view/:partNumber', controller.renderPart)

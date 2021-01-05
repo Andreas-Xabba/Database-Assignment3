@@ -6,7 +6,3 @@ module.exports = routerExports
 
 routerExports.router = router
 router.get('/', controller.renderIndex)
-
-router.get('/orders', controller.renderOrders)
-
-router.get('/stock', controller.renderStock)
