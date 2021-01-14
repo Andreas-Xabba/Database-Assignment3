@@ -1,0 +1,31 @@
+{{> stockNav}}
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
+<div class="innerWindow">
+    <h1>View Location {{locationData.location}}</h1>
+    <table class="part-container">
+        <tr>
+            <th>Location:</th>
+            <td>{{locationData.location}}</td>
+        </tr>
+        <tr>
+            <th>Component</th>
+            <td>
+                <select name="number" id="partNumber" form="updateForm">
+                    <option value="{{locationData.componentNumber}}" selected>{{locationData.componentNumber}}</option>
+                    {{#each componentData}}
+                        <option value="{{this.number}}">{{this.number}}</option>
+                    {{/each}}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Quantity:</th>
+            <td><input type="text" name="quantity" value="{{locationData.quantity}}" form="updateForm"></td>
+        </tr>
+    </table>
+    <form method="post" id="updateForm">
+        <input type="hidden" name="location" value="{{locationData.location}}">
+        <p><input class="code-submit-button" type="submit" id="updateButton" name="submit" value="Update"></p>
+    </form>
+
+</div>

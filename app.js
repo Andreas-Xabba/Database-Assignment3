@@ -39,6 +39,7 @@ app.use(cookieParser())
 const indexRouter = require('./routes/index')
 const orderRouter = require('./routes/orders')
 const stockRouter = require('./routes/stock')
+const modelRouter = require('./routes/model')
 
 app.use(session({
   resave: false,
@@ -49,6 +50,7 @@ app.use(session({
 app.use('/', indexRouter.router)
 app.use('/orders', orderRouter.router)
 app.use('/stock', stockRouter.router)
+app.use('/model', modelRouter.router)
 
 app.use(function (req, res, next) {
   next(createError(404))
@@ -59,38 +61,6 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {}
   res.status(err.status || 500)
   res.render('error')
-})
-
-wss.broadcastExcept = (ws, data) => { //eslint-disable-line
-  let clients = 0
-
-  wss.clients.forEach((client) => {
-    if (client !== ws && client.readyState === WebSocket.OPEN) {
-      clients++
-      client.send(data)
-    }
-  })
-  console.log(`Broadcasted data to ${clients} (${wss.clients.size}) clients.`)
-}
-
-wss.on('connection', (ws /*, req */) => {
-  console.log('Connection received. Adding client.')
-
-  wss.broadcastExcept(ws, `New client connected (${wss.clients.size}).`)
-
-  ws.on('message', (message) => {
-    console.log('Received: %s', message)
-    wss.broadcastExcept(ws, message)
-  })
-
-  ws.on('error', (error) => {
-    console.log(`Server error: ${error}`)
-  })
-
-  ws.on('close', (code, reason) => {
-    console.log(`Closing connection: ${code} ${reason}`)
-    wss.broadcastExcept(ws, `Client disconnected (${wss.clients.size}).`)
-  })
 })
 
 server.listen(PORT, () => {

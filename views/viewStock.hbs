@@ -4,15 +4,19 @@
     <h1>View Stock</h1>
     <table>
         <tr>
+            <th>Location</th>
             <th>Part Number</th>
             <th>Name</th>
             <th>Price</th>
+            <th>Quantity</th>
         </tr>
         {{#each data}}
         <tr>
-            <td><a href="/stock/view/{{this.number}}">{{this.number}}</a></td>
+            <td><a href="/stock/view/location/{{this.location}}">{{this.location}}</td>
+            <td><a href="/stock/view/part/{{this.number}}">{{this.number}}</a></td>
             <td>{{this.name}}</td>
             <td>{{this.price}}</td>
+            <td>{{this.quantity}}</td>
         </tr>
         {{/each}}
     </table>

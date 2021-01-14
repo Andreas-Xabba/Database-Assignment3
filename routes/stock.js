@@ -11,4 +11,10 @@ router.get('/addpart', controller.renderAddPart)
 router.post('/addpart', controller.tryAddPart)
 
 router.get('/view', controller.renderViewStock)
-router.get('/view/:partNumber', controller.renderPart)
+router.get('/view/part/:partNumber', controller.renderPart)
+router.post('/view/part/:partNumber', controller.updatePart)
+router.get('/view/location/:locationNumber', controller.renderLocation)
+router.post('/view/location/:locationNumber', controller.updateLocation)
+
+router.get('/addlocation', controller.renderAddLocation)
+router.post('/addlocation', controller.tryAddLocation)

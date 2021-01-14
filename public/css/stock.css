@@ -10,6 +10,18 @@ input {
     margin-bottom: 10px;
     outline: none;
     text-align: center;
+    width: 200px;
+}
+
+select {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    outline: none;
+    text-align: center;
+    width: 205px;
+    height: 20px;
 }
 
 button {
@@ -32,6 +44,11 @@ a:hover, a:focus {
     text-align: center;
 }
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 table, th, td, tr {
     border: 1px solid black;
     border-collapse: collapse;
@@ -42,4 +59,16 @@ th, td, tr {
     padding-left: 5px;
     padding-right: 30px;
     text-align: left;
+}
+
+.part-container {
+    border: 1px solid black;
+}
+
+td input {
+    margin: auto;
+}
+
+.innerWindow {
+    text-align: center;
 }

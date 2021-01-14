@@ -1,0 +1,21 @@
+{{> modelNav}}
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
+<script src="/js/addModel.js"></script>
+<div class="innerWindow">
+    <h1>Create Model</h1>
+    <div class="formWrapper">
+        <form method="post">
+            <label>Model Name</label>
+            <input type="text" name="modelName" value="" required>
+
+            <label>Model Number</label>
+            <input type="text" name="modelNumber" value="" required>
+
+            <label>Parts</label>
+            <input type="text" name="modelNumber" value="" required>
+
+            <input type="submit" name="submit" value="Add Model">
+        </form>
+    </div>
+</div>
+<script>addParts()</script>

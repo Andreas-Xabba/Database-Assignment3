@@ -2,5 +2,30 @@
 <link rel="stylesheet" type="text/css" href="/css/stock.css" />
 <div class="innerWindow">
     <h1>View Part {{data.number}}</h1>
-
+    <table class="part-container">
+        <tr>
+            <th>Number:</th>
+            <td>{{data.number}}</td>
+        </tr>
+        <tr>
+            <th>Name:</th>
+            <td><input type="text" name="name" value="{{data.name}}" form="updateForm"></td>
+        </tr>
+        <tr>
+            <th>Price:</th>
+            <td><input type="number" name="price" value="{{data.price}}" step=0.01 min=0 form="updateForm"></td>
+        </tr>
+        <tr>
+            <th>Location:</th>
+            <td>{{data.location}}</td>
+        </tr>
+        <tr>
+            <th>Quantity:</th>
+            <td>{{data.quantity}}</td>
+        </tr>
+    </table>
+    <form method="post" id="updateForm">
+        <input type="hidden" name="number" value="{{data.number}}">
+        <p><input class="code-submit-button" type="submit" id="updateButton" name="submit" value="Update"></p>
+    </form>
 </div>
