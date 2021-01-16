@@ -8,5 +8,6 @@ routerExports.router = router
 router.get('/', controller.renderModels)
 
 router.get('/create', controller.renderCreateModel)
+router.post('/create', controller.tryCreateModel)
 
 router.get('/view', controller.renderViewModel)

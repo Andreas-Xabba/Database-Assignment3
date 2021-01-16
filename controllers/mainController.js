@@ -168,11 +168,41 @@ controller.renderModels = async (req, res) => { // eslint-disable-line
 }
 
 controller.renderCreateModel = async (req, res) => { // eslint-disable-line
-  res.render('createModel', { layout: 'main' })
+  const sql =
+  `SELECT * FROM ${schema}.component`
+
+  con.query(sql, function (err, result) {
+    if (err) throw err
+    res.render('createModel', { layout: 'main', data: result })
+  })
+}
+
+controller.tryCreateModel = async (req, res) => { // eslint-disable-line
+  console.log(req.body)
+  const sql = `INSERT INTO ${schema}.model (code,name,size) VALUES ("${req.body.modelNumber}","${req.body.modelName}",${req.body.modelSize})`
+  con.query(sql, function (err, result) {
+    if (err) throw err
+    const componentList = req.body.componentList.split('|')
+    for (let i = 1; i < componentList.length - 1; i++) {
+      console.log(componentList)
+      const componentNumber = componentList[i]
+      const sql = `INSERT INTO ${schema}.consistsof (modelCode,componentNumber) VALUES ("${req.body.modelNumber}","${componentNumber}")`
+      con.query(sql, function (err, result) {
+        if (err) throw err
+        console.log(componentNumber + ' added')
+      })
+    }
+    res.redirect('/model')
+  })
 }
 
 controller.renderViewModel = async (req, res) => { // eslint-disable-line
-  res.render('viewModel', { layout: 'main' })
+  const sql = `SELECT * FROM ${schema}.model`
+
+  con.query(sql, function (err, result) {
+    if (err) throw err
+    res.render('viewModel', { layout: 'main', data: result })
+  })
 }
 
 async function _existsInDatabase (table, column, value) { // eslint-disable-line

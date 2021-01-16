@@ -1,4 +1,19 @@
 {{> modelNav}}
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
 <div class="innerWindow">
     <h1>View Model</h1>
+    <table>
+        <tr>
+            <th>Model Name</th>
+            <th>Model Code</th>
+            <th>Size</th>
+        </tr>
+        {{#each data}}
+        <tr>
+            <td><a href="/model/view/{{this.code}}">{{this.name}}</td>
+            <td><a href="/model/view/{{this.code}}">{{this.code}}</a></td>
+            <td>{{this.size}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </div>

@@ -11,11 +11,21 @@
             <label>Model Number</label>
             <input type="text" name="modelNumber" value="" required>
 
-            <label>Parts</label>
-            <input type="text" name="modelNumber" value="" required>
+            <label>Size</label>
+            <input type="number" name="modelSize" value="" required>
 
+            <label>Parts</label>
+            <select name="modelComponent" id="modelComponent">
+                {{#each data}}
+                <option value="{{this.number}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            <button id="addComponentButton">Add Component</button>
+
+            <input type="hidden" name="componentList" id="componentList" value="|">
             <input type="submit" name="submit" value="Add Model">
+            
         </form>
     </div>
 </div>
-<script>addParts()</script>
+<script>setupComponentButton()</script>
