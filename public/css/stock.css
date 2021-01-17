@@ -42,19 +42,22 @@ a:hover, a:focus {
 
 .formWrapper {
     text-align: center;
+    overflow: auto;
+    max-height: 500px;
 }
 
 table {
     margin-left: auto;
     margin-right: auto;
+    overflow: auto;
 }
 
-table, th, td, tr {
+table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-th, td, tr {
+th, td {
     color: var(--clr-accent);
     padding-left: 5px;
     padding-right: 30px;
@@ -71,4 +74,24 @@ td input {
 
 .innerWindow {
     text-align: center;
+    overflow: auto;
+}
+
+input[type="textarea"] {
+    width: 300px;
+    height: 200px;
+}
+
+.sum-label {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.return-component-button {
+    width: auto;
+}
+
+.button-with-margin {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }

@@ -1,0 +1,89 @@
+{{> ordersNav}}
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
+<script src="/js/viewOrderItem.js"></script>
+<div class="innerWindow">
+    <h2>Order Data</h2>
+    <table class="part-container">
+        <tr>
+            <th>Order Number:</th>
+            <td>{{data.repairId}}</td>
+        </tr>
+        <tr>
+            <th>IMEI:</th>
+            <td>{{data.deviceIMEI}}</td>
+        </tr>
+        {{#if data.completed}}
+        <tr>
+            <th>Status:</th>
+            <td>closed</td>
+        </tr>
+        <tr>
+            <th>Closed at:</th>
+            <td>{{data.completed}}</td>
+        </tr>
+        {{else}}
+        <tr>
+            <th>Status:</th>
+            <td>open</td>
+        </tr>
+        {{/if}}
+    </table>
+    <hr>
+    <h2>Customer Data</h2>
+    <table class="part-container">
+        <tr>
+            <th>Customer ID:</th>
+            <td>{{data.customerId}}</td>
+        </tr>
+        <tr>
+            <th>Customer Name:</th>
+            <td>{{data.name}}</td>
+        </tr>
+        <tr>
+            <th>Phone:</th>
+            <td>{{data.phone}}</td>
+        </tr>
+    </table>
+    <hr>
+    <h2>Parts</h2>
+    <table id="componentList" class="part-container">
+        <tr>
+            <th>Partnumber</th>
+            <th>Partname</th>
+            <th>price</th>
+        </tr>
+        {{#each parts}}
+            <tr>
+                <td>{{this.componentNumber}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.price}}</td>
+                <td class="return-component-table-cell">
+                    <form method="post">
+                        <input type="hidden" name="partNumber" value="{{this.componentNumber}}">
+                        <input class="return-component-button" type="submit" name="submit" value="remove">
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+    <label class="sum-label">Total sum: {{totalsum}}</label>
+    {{#unless data.completed}}
+    <form method="post">
+    <select name="orderPart" id="orderPart">
+        {{#each availableParts}}
+        <option value="{{this.number}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+        <input type="submit" name="submit" value="Add Part">
+    </form>
+    {{/unless}}
+    <hr>
+    <form method="post">
+    {{#if data.completed}}
+        <input type="submit" name="submit" value="Open Order">
+    {{else}}
+        <input type="submit" name="submit" value="Close Order">
+    {{/if}}
+    </form>
+</div>
+

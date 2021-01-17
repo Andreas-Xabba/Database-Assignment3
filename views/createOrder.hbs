@@ -1,4 +1,40 @@
 {{> ordersNav}}
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
 <div class="innerWindow">
     <h1>Create Order</h1>
+    <div class="formWrapper">
+        <form method="post">
+            <h2>Customer</h2>
+            <label>Name</label>
+            <input type="text" name="customerName" value="" required>
+
+            <label>Social Security Number</label>
+            <input type="text" name="customerSSN" value="" required>
+
+            <label>Phone Number</label>
+            <input type="number" name="customerPhone" value="" required>
+
+            <hr>
+
+            <h2>Device</h2>
+            <label>Model</label>
+            <select name="deviceModel" id="modelSelector">
+                {{#each data}}
+                <option value="{{this.code}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+
+            <label>IMEI</label>
+            <input type="number" name="deviceIMEI" value="" required>
+
+            <label>Color</label>
+            <input type="text" name="deviceColor" value="" required>
+
+            <label>Problem</label>
+            <input type="textarea" name="deviceProblem" value="" required>
+
+            <input type="submit" name="submit" value="Add Order">
+            
+        </form>
+    </div>
 </div>

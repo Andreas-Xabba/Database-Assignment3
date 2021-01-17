@@ -8,5 +8,8 @@ routerExports.router = router
 router.get('/', controller.renderOrders)
 
 router.get('/create', controller.renderCreateOrder)
+router.post('/create', controller.tryCreateOrder)
 
 router.get('/view', controller.renderViewOrder)
+router.get('/view/item/:id', controller.renderViewOrderItem)
+router.post('/view/item/:id', controller.tryOrderItemChange)

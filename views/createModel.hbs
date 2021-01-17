@@ -3,6 +3,7 @@
 <script src="/js/addModel.js"></script>
 <div class="innerWindow">
     <h1>Create Model</h1>
+    <hr>
     <div class="formWrapper">
         <form method="post">
             <label>Model Name</label>
@@ -20,10 +21,15 @@
                 <option value="{{this.number}}">{{this.name}}</option>
                 {{/each}}
             </select>
-            <button id="addComponentButton">Add Component</button>
+            <ul id="partsList">
+                
+            </ul>
+            <button id="addComponentButton" class="button-with-margin">Add Component</button>
+
+            <hr>
 
             <input type="hidden" name="componentList" id="componentList" value="|">
-            <input type="submit" name="submit" value="Add Model">
+            <input type="submit" class="button-with-margin" name="submit" value="Add Model">
             
         </form>
     </div>

@@ -28,11 +28,114 @@ controller.renderStock = async (req, res) => { // eslint-disable-line
 }
 
 controller.renderCreateOrder = async (req, res) => { // eslint-disable-line
-  res.render('createOrder', { layout: 'main' })
+  const sql = `SELECT code, name FROM ${schema}.model`
+
+  con.query(sql, function (err, result) {
+    if (err) throw err
+    res.render('createOrder', { layout: 'main', data: result })
+  })
+}
+
+controller.tryCreateOrder = async (req, res) => { // eslint-disable-line
+  const timeStamp = _getTimeStamp()
+
+  const customersql = `INSERT INTO ${schema}.customer (name, id, phone) VALUES ("${req.body.customerName}", "${req.body.customerSSN}", ${req.body.customerPhone})`
+  const devicesql = `INSERT INTO ${schema}.device (IMEI, problem, color, created, customerId, modelCode) VALUES ("${req.body.deviceIMEI}", "${req.body.deviceProblem}", "${req.body.deviceColor}", "${timeStamp}", "${req.body.customerSSN}", "${req.body.deviceModel}")`
+  const repairsql = `INSERT INTO ${schema}.repairation (deviceIMEI, customerId) VALUES ("${req.body.deviceIMEI}", "${req.body.customerSSN}")`
+
+  con.query(customersql, function (err, result) {
+    if (err) throw err
+    con.query(devicesql, function (err, result) {
+      if (err) throw err
+      con.query(repairsql, function (err, result) {
+        if (err) throw err
+        res.render('orders', { layout: 'main', message: 'Order successfully created!' })
+      })
+    })
+  })
 }
 
 controller.renderViewOrder = async (req, res) => { // eslint-disable-line
-  res.render('viewOrder', { layout: 'main' })
+  const sql = `SELECT * FROM ${schema}.repairation`
+
+  con.query(sql, function (err, result) {
+    if (err) throw err
+    res.render('viewOrder', { layout: 'main', data: result })
+  })
+}
+
+controller.renderViewOrderItem = async (req, res) => { // eslint-disable-line
+  const sql = `SELECT * FROM (SELECT name, phone, completed, deviceIMEI, customerId AS customerId, repairation.id AS repairId FROM ${schema}.repairation JOIN ${schema}.customer ON ${schema}.repairation.customerId = ${schema}.customer.id) AS orderCustomerTable WHERE repairId = ${req.params.id}`
+
+  con.query(sql, function (err, dataResult) {
+    if (err) throw err
+    const existingPartsSql = `SELECT * FROM ${schema}.includes JOIN ${schema}.component ON ${schema}.includes.componentNumber = ${schema}.component.number WHERE reperationId = ${req.params.id}`
+    con.query(existingPartsSql, function (err, existingPartsResult) {
+      if (err) throw err
+      let totalsum = 0
+      for (const part of existingPartsResult) {
+        totalsum += Number(part.price)
+      }
+      const availablePartsSql = `SELECT * FROM ${schema}.component WHERE number IN (SELECT componentNumber FROM ${schema}.consistsof JOIN ${schema}.device ON ${schema}.consistsof.modelCode = ${schema}.device.modelCode WHERE IMEI = ${dataResult[0].deviceIMEI})`
+      con.query(availablePartsSql, function (err, availablePartsResult) {
+        if (err) throw err
+        console.log(availablePartsResult)
+        res.render('viewOrderItem', { layout: 'main', data: dataResult[0], parts: existingPartsResult, availableParts: availablePartsResult, totalsum: totalsum })
+      })
+    })
+  })
+}
+
+controller.tryOrderItemChange = async (req, res) => { // eslint-disable-line
+  switch (req.body.submit) {
+    case 'Close Order': {
+      const sql = `UPDATE ${schema}.repairation SET completed = "${_getTimeStamp()}" WHERE id = ${req.params.id}`
+      con.query(sql, function (err, result) {
+        if (err) throw err
+        res.redirect(`/orders/view/item/${req.params.id}`)
+      })
+      break
+    }
+    case 'Open Order': {
+      const sql = `UPDATE ${schema}.repairation SET completed = null WHERE id = ${req.params.id}`
+      con.query(sql, function (err, result) {
+        if (err) throw err
+        res.redirect(`/orders/view/item/${req.params.id}`)
+      })
+      break
+    }
+    case 'Add Part': {
+      console.log(req.body)
+      const sql = `INSERT INTO ${schema}.includes (componentNumber, reperationId) VALUES ("${req.body.orderPart}", ${req.params.id})`
+      con.query(sql, function (err, result) {
+        if (err) {
+          console.log(`duplicate found: ${req.body.orderPart}`)
+        }
+        const updateStockSql = `UPDATE ${schema}.stock SET quantity = quantity - 1 WHERE componentNumber = "${req.body.orderPart}"`
+        con.query(updateStockSql, function (err, result) {
+          if (err) throw err
+          res.redirect(`/orders/view/item/${req.params.id}`)
+        })
+      })
+      break
+    }
+    case 'remove': {
+      console.log(req.body)
+      const deleteComponentFromOrderSql = `DELETE FROM ${schema}.includes WHERE reperationId=${req.params.id} AND componentNumber="${req.body.partNumber}"`
+      con.query(deleteComponentFromOrderSql, function (err, result) {
+        if (err) throw err
+        const updateStockSql = `UPDATE ${schema}.stock SET quantity = quantity + 1 WHERE componentNumber = "${req.body.partNumber}"`
+        con.query(updateStockSql, function (err, result) {
+          if (err) throw err
+          res.redirect(`/orders/view/item/${req.params.id}`)
+        })
+      })
+      break
+    }
+    default: {
+      console.log('default case')
+    }
+  }
 }
 
 controller.renderAddPart = async (req, res) => { // eslint-disable-line
@@ -41,9 +144,6 @@ controller.renderAddPart = async (req, res) => { // eslint-disable-line
 
 controller.tryAddPart = async (req, res) => { // eslint-disable-line
   console.log('add part')
-  console.log(req.body.partName)
-  console.log(req.body.partNumber)
-  console.log(req.body.partPrice)
 
   const sql =
   `INSERT INTO ${schema}.component (name, number, price) VALUES ("${req.body.partName}", "${req.body.partNumber}", ${req.body.partPrice})`
@@ -218,4 +318,19 @@ async function _existsInDatabase (table, column, value) { // eslint-disable-line
       return false
     }
   })
+}
+
+function _formatTime (timeparameter) { // eslint-disable-line
+  const timeString = timeparameter.toString()
+  if (timeString.length === 1) {
+    return '0' + timeString
+  } else {
+    return timeString
+  }
+}
+
+function _getTimeStamp() { // eslint-disable-line
+  const dateTime = new Date()
+  const timeStamp = `${_formatTime(dateTime.getFullYear())}-${_formatTime(dateTime.getMonth() + 1)}-${_formatTime(dateTime.getDate())} ${_formatTime(dateTime.getHours())}:${_formatTime(dateTime.getMinutes())}:${_formatTime(dateTime.getSeconds())}`
+  return timeStamp
 }

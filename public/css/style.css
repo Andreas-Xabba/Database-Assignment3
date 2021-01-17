@@ -198,6 +198,8 @@ nav a:hover, nav a:focus {
 .innerWindow {
     margin: 10px;
     padding: 10px;
+    max-height: 600px;
+    overflow: auto;
 }
 
 @media screen and (max-width: 600px) {

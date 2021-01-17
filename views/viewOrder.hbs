@@ -1,4 +1,21 @@
 {{> ordersNav}}
+<link rel="stylesheet" type="text/css" href="/css/stock.css" />
 <div class="innerWindow">
     <h1>View Order</h1>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Device IMEI</th>
+            <th>Customer ID</th>
+            <th>Completed</th>
+        </tr>
+        {{#each data}}
+        <tr>
+            <td><a href="/orders/view/item/{{this.id}}">{{this.id}}</td>
+            <td>{{this.deviceIMEI}}</a></td>
+            <td>{{this.customerId}}</td>
+            <td>{{this.completed}}</td>
+        </tr>
+        {{/each}}
+    </table>
 </div>
