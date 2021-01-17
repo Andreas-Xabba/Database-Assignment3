@@ -72,15 +72,17 @@ controller.renderViewOrderItem = async (req, res) => { // eslint-disable-line
     const existingPartsSql = `SELECT * FROM ${schema}.includes JOIN ${schema}.component ON ${schema}.includes.componentNumber = ${schema}.component.number WHERE reperationId = ${req.params.id}`
     con.query(existingPartsSql, function (err, existingPartsResult) {
       if (err) throw err
-      let totalsum = 0
-      for (const part of existingPartsResult) {
-        totalsum += Number(part.price)
-      }
-      const availablePartsSql = `SELECT * FROM ${schema}.component WHERE number IN (SELECT componentNumber FROM ${schema}.consistsof JOIN ${schema}.device ON ${schema}.consistsof.modelCode = ${schema}.device.modelCode WHERE IMEI = ${dataResult[0].deviceIMEI})`
-      con.query(availablePartsSql, function (err, availablePartsResult) {
+      const totalSumSql = `SELECT sum(price) AS totalPrice FROM (SELECT * FROM ${schema}.includes JOIN ${schema}.component ON ${schema}.includes.componentNumber = ${schema}.component.number WHERE reperationId = ${req.params.id}) as usedComponents GROUP BY reperationId`
+      con.query(totalSumSql, function (err, totalSumResult) {
         if (err) throw err
-        console.log(availablePartsResult)
-        res.render('viewOrderItem', { layout: 'main', data: dataResult[0], parts: existingPartsResult, availableParts: availablePartsResult, totalsum: totalsum })
+        const totalsum = totalSumResult[0].totalPrice
+
+        const availablePartsSql = `SELECT * FROM ${schema}.component WHERE number IN (SELECT componentNumber FROM ${schema}.consistsof JOIN ${schema}.device ON ${schema}.consistsof.modelCode = ${schema}.device.modelCode WHERE IMEI = ${dataResult[0].deviceIMEI})`
+        con.query(availablePartsSql, function (err, availablePartsResult) {
+          if (err) throw err
+          console.log(availablePartsResult)
+          res.render('viewOrderItem', { layout: 'main', data: dataResult[0], parts: existingPartsResult, availableParts: availablePartsResult, totalsum: totalsum })
+        })
       })
     })
   })
